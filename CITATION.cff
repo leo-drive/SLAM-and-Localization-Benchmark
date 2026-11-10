@@ -8,7 +8,7 @@ type: software
 authors:
   - name: Sibel Turgut
     website: https://leodrive.ai
-repository-code: https://github.com/REPLACE-ME/boreas-rt-slam-benchmark
+repository-code: https://github.com/leo-drive/SLAM-and-Localization-Benchmark
 abstract: >-
   Eight open-source LiDAR SLAM, odometry and map-based localization systems
   measured on five sequences of the Boreas-RT dataset (51.9 km) on identical
