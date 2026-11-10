@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  slam_benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: boreas_slam_eval
+    network_mode: "host"
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - LIBGL_ALWAYS_SOFTWARE=1 
+      - ROS_MASTER_URI=http://localhost:11311
+    volumes:
+      # GUI / X11 Forwarding for RViz (CPU rendering)
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      
+      # Mount the prepared Boreas-RT dataset (READ ONLY). Set BOREAS_DATASET to wherever
+      # dataset/README-style preparation left the per-sequence directories and bags; see the
+      # repo README. Read-only on purpose: the harness must never be able to alter its input.
+      - ${BOREAS_DATASET:?set BOREAS_DATASET to your prepared dataset directory}:/data/boreas:ro
+      
+      # Mount the workspace src directory
+      - ./catkin_ws_src:/root/catkin_ws/src:rw
+
+      # Named volumes for build output
+      - catkin_build:/root/catkin_ws/build:rw
+      - catkin_devel:/root/catkin_ws/devel:rw
+      - catkin_logs:/root/catkin_ws/logs:rw
+
+      # Output directory for evo trajectory logs and memory profiling
+      - ./benchmark_results:/root/benchmark_results:rw
+
+      # Repo-root scripts (collect_metrics.py, configure_group1.py, etc.) -- mounted live so
+      # edits show up without an image rebuild
+      - .:/root/boreas_slam_benchmark:rw
+    
+    # Keep container alive
+    command: /bin/bash -c "while true; do sleep 1000; done"
+
+volumes:
+  catkin_build:
+  catkin_devel:
+  catkin_logs:

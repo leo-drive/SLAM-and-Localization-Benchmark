@@ -1,0 +1,18 @@
+Boreas-RT SLAM Benchmark
+Copyright 2026 Leo Drive
+
+This product includes software developed at Leo Drive (https://leodrive.ai).
+
+The LiDAR SLAM, odometry and localization systems this benchmark measures are
+NOT included in or distributed with this repository. fetch_algorithms.sh clones
+each one from its own upstream at a pinned commit, and configure/ applies this
+project's parameter changes to that fresh clone on the user's machine. Each
+remains under its own license; see the Licensing section of README.md.
+
+The Boreas-RT ("Boreas Road Trip") dataset is licensed CC BY 4.0 by its authors
+and is not redistributed here. Work published from these measurements must cite:
+
+  D. Lisus, K. M. Papais, C. Le Gentil, E. Preston-Krebs, A. Lambert,
+  K. Y. K. Leung and T. D. Barfoot, "Boreas Road Trip: A Multi-Sensor
+  Autonomous Driving Dataset on Challenging Roads," arXiv:2602.16870
+  [cs.RO], 2026.

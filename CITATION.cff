@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+title: Boreas-RT SLAM Benchmark
+message: >-
+  If you use this benchmark, its harness or its measurements, please cite it.
+  Cite the Boreas-RT dataset separately -- see `references` below; its CC BY 4.0
+  licence requires attribution.
+type: software
+authors:
+  - name: Sibel Turgut
+    website: https://leodrive.ai
+repository-code: https://github.com/REPLACE-ME/boreas-rt-slam-benchmark
+abstract: >-
+  Eight open-source LiDAR SLAM, odometry and map-based localization systems
+  measured on five sequences of the Boreas-RT dataset (51.9 km) on identical
+  hardware with identical preprocessing, three runs each. This repository is
+  the harness, the parameter changes applied to each upstream system, and the
+  scoring code needed to regenerate every published number from the dataset up.
+keywords:
+  - SLAM
+  - LiDAR
+  - odometry
+  - localization
+  - benchmark
+  - ROS
+license: Apache-2.0
+references:
+  - type: article
+    title: >-
+      Boreas Road Trip: A Multi-Sensor Autonomous Driving Dataset on
+      Challenging Roads
+    authors:
+      - family-names: Lisus
+        given-names: Daniil
+      - family-names: Papais
+        given-names: Katya M.
+      - family-names: Le Gentil
+        given-names: Cedric
+      - family-names: Preston-Krebs
+        given-names: Elliot
+      - family-names: Lambert
+        given-names: Andrew
+      - family-names: Leung
+        given-names: Keith Y. K.
+      - family-names: Barfoot
+        given-names: Timothy D.
+    year: 2026
+    identifiers:
+      - type: other
+        value: arXiv:2602.16870

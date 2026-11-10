@@ -1,0 +1,43 @@
+out_dir: "/tmp/kiss_icp_results"
+
+data:
+  deskew: True
+  # kiss_icp's local map bound (mapping.py: VoxelHashMap(max_distance=config.data.max_range)) is
+  # tied to this same field. At the stock 100.0m, the Velodyne Alpha-Prime's point density here
+  # (~200-225k pts/scan -- 128 channels x ~1750 azimuth samples, roughly 2x what KISS-ICP is
+  # normally benchmarked against on 64-channel KITTI-style data) meant the local map never reached
+  # a steady state on the slower/denser sequences (boreas-snowy: grew past 1.6M points by frame 400
+  # and kept climbing), dragging register_frame() from ~30ms to 280-500+ms/frame against a ~104ms
+  # scan interval. The ROS subscriber's queue_size then silently drops the backlog with no
+  # warning/error -- why every kissicp run collected at the stock config showed 6-20% of the real
+  # distance traveled.
+  #
+  # First attempt, rejected: shrinking max_range alone to 20.0m did bound the map and fixed
+  # throughput, but cost the local map exactly the spatial context it needs to survive a real
+  # registration difficulty -- confirmed on boreas-snowy at t=146s (a long, straight, snow-covered
+  # stretch with too little off-axis structure to constrain translation along the direction of
+  # travel): at max_range=20 the position lock up PERMANENTLY (frozen for the remaining ~1000s of
+  # an 1153s run) instead of recovering once distinctive geometry re-entered the scene. At
+  # max_range=50/100 the same stretch causes only a transient ~70s freeze that self-corrects. This
+  # is the project's established winter ground-plane fragility
+  # showing up as a registration degeneracy rather than a ground-segmentation failure this time.
+  max_range: 50.0
+  min_range: 0.0  # roof blind-spot already stripped upstream by boreas2rosbag.py's MIN_ROOF_DISTANCE_SQ
+
+mapping:
+  voxel_size: 0.4  # matches the project's 0.3-0.5m target (same as LIO-SAM's leaf sizes)
+  # Lowered from the stock 20 to keep register_frame() within the ~104ms scan budget at max_range's
+  # wider 50m map bound (dense point clouds otherwise overload the voxel hash map's per-cell point
+  # lists). Re-verified end-to-end on boreas-snowy (worst case: slow + winding + the degenerate
+  # stretch above): final estimated path length 7962.9m vs ground truth's 7947.0m (ratio 1.002)
+  # across the full 1153s run, with register_frame() averaging 70-150ms/frame throughout.
+  max_points_per_voxel: 5
+
+adaptive_threshold:
+  initial_threshold: 2.0
+  min_motion_th: 0.1
+
+registration:
+  max_num_iterations: 500
+  convergence_criterion: 0.0001
+  max_num_threads: 0
