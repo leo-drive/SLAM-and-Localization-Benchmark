@@ -243,29 +243,4 @@ permitted and **attribution is required**. Anything published from these numbers
 
 ## Licensing
 
-This repository's own code is **Apache-2.0** (`LICENSE`, `NOTICE`). The patent grant is the
-reason for Apache over MIT: it protects users and contributors alike, which MIT does not address.
-
-The benchmarked systems are not redistributed here. `fetch_algorithms.sh` clones each one from
-its own upstream under its own license, and `configure/` edits that fresh clone in place, so
-nothing copyleft is ever committed to this repository:
-
-| System | License |
-|---|---|
-| KISS-ICP, Direct LiDAR Odometry, livox_ros_driver | MIT |
-| HDL-Graph-SLAM, hdl_localization, hdl_global_localization, ndt_omp, fast_gicp | BSD 2-Clause |
-| LIO-SAM | BSD 3-Clause |
-| RTAB-Map | BSD 3-Clause (apt, `ros-noetic-rtabmap-ros`) |
-| **FAST-LIO2, FAST-LIO-Localization** | **GPL-2.0** |
-
-The GPL-2.0 entries are why the configuration is expressed as scripted edits rather than forks,
-and why this repository's own licence can be permissive: no copyleft source is committed here,
-nothing links against it (each system runs as its own process under `roslaunch`), and the image
-this Dockerfile builds contains no algorithm code — the sources are a bind mount compiled on your
-machine. Running a system and publishing the resulting measurements is not redistribution of it.
-
-**That changes if a prebuilt image is ever published.** An image with these systems compiled in
-would distribute GPL-2.0 binaries, and the obligations that come with that would apply. The split
-build exists to avoid it.
-
-This is not legal advice — have it reviewed before any commercial launch.
+This repository's own code is **Apache-2.0** (`LICENSE`, `NOTICE`).
